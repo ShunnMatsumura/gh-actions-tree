@@ -22,16 +22,34 @@
 
   // ---------------------------------------------------------------- utils
 
+  // Strict owner/repo shapes so URL-path-derived values can't form unexpected
+  // API paths (e.g. ".." traversal). GitHub owners are alphanumeric + "-",
+  // repos also allow "." and "_" but can never be "." / "..".
+  const OWNER_RE = /^[A-Za-z0-9-]+$/;
+  const REPO_RE = /^[A-Za-z0-9._-]+$/;
+
   function repoFromPath() {
     const m = location.pathname.match(/^\/([^/]+)\/([^/]+)\/actions(?:\/|$)/);
     if (!m) return null;
     if (m[1] === 'orgs' || m[1] === 'organizations') return null;
-    return { owner: m[1], repo: m[2] };
+    const [, owner, repo] = m;
+    if (!OWNER_RE.test(owner) || !REPO_RE.test(repo) || repo === '.' || repo === '..') {
+      return null;
+    }
+    return { owner, repo };
+  }
+
+  function safeDecode(s) {
+    try {
+      return decodeURIComponent(s);
+    } catch {
+      return s;
+    }
   }
 
   function currentWorkflowFile() {
     const m = location.pathname.match(/\/actions\/workflows\/([^/?#]+)/);
-    return m ? decodeURIComponent(m[1]) : null;
+    return m ? safeDecode(m[1]) : null;
   }
 
   function lsKey(info, kind) {
@@ -139,14 +157,23 @@
   }
 
   // Sidebar container = the element (nav/aside, or common list) holding the workflow links.
+  // nav/aside candidates always win over bare <ul> ones, so workflow links that GitHub
+  // might add to the main run list can never out-vote the real sidebar.
   function findSidebarContainer() {
     const anchors = sidebarWorkflowAnchors(document);
     if (anchors.length === 0) return null;
-    const counts = new Map();
+    const navCounts = new Map();
+    const listCounts = new Map();
     for (const a of anchors) {
-      const c = a.closest('nav, aside') || a.closest('ul');
-      if (c) counts.set(c, (counts.get(c) || 0) + 1);
+      const nav = a.closest('nav, aside');
+      if (nav) {
+        navCounts.set(nav, (navCounts.get(nav) || 0) + 1);
+        continue;
+      }
+      const ul = a.closest('ul');
+      if (ul) listCounts.set(ul, (listCounts.get(ul) || 0) + 1);
     }
+    const counts = navCounts.size > 0 ? navCounts : listCounts;
     let best = null;
     let bestCount = 0;
     for (const [c, n] of counts) {
@@ -159,11 +186,16 @@
   }
 
   // Click "Show more workflows" until every workflow is in the DOM.
+  // Only real buttons or href-less anchors are clicked, so a plain link that
+  // happens to match the text can never navigate the page away.
   async function expandSidebar(container) {
     for (let i = 0; i < 50; i++) {
-      const btn = [...container.querySelectorAll('button, a')].find((el) =>
-        /show more workflows/i.test(el.textContent || '')
-      );
+      const btn = [...container.querySelectorAll('button, a')].find((el) => {
+        if (!/show more workflows/i.test(el.textContent || '')) return false;
+        if (el.tagName === 'BUTTON') return true;
+        const href = el.getAttribute('href') || '';
+        return href === '' || href === '#';
+      });
       if (!btn) return;
       const before = sidebarWorkflowAnchors(container).length;
       btn.click();
@@ -185,7 +217,7 @@
     for (const a of sidebarWorkflowAnchors(container)) {
       const m = (a.getAttribute('href') || '').match(/\/actions\/workflows\/([^/?#]+)/);
       if (!m) continue;
-      const file = decodeURIComponent(m[1]);
+      const file = safeDecode(m[1]);
       const name = (a.textContent || '').trim();
       if (name && !seen.has(file)) seen.set(file, { name, file, state: 'active' });
     }
@@ -385,6 +417,8 @@
         renderNode(buildTree(fresh), tree, info, '', new Set(lsGetJSON(lsKey(info, 'open')) || []), currentWorkflowFile());
         updateActive(root);
         applyFilter(root, filter.value);
+      } catch {
+        /* keep the current tree on refresh failure */
       } finally {
         refreshBtn.disabled = false;
       }
@@ -465,6 +499,10 @@
     busy = true;
     try {
       await run();
+    } catch {
+      // Never let a transient DOM/URL edge case surface as a page console error
+      // every tick; back off and retry later.
+      lastErrorAt = Date.now();
     } finally {
       busy = false;
     }
