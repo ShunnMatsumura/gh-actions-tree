@@ -1,0 +1,10 @@
+name: "[perf]_load-test"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "dummy workflow [perf]_load-test"

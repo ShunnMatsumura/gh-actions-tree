@@ -1,0 +1,10 @@
+name: "[data][etl]_daily-import"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "dummy workflow [data][etl]_daily-import"

@@ -1,0 +1,10 @@
+name: "[monitoring]_synthetics"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "dummy workflow [monitoring]_synthetics"
