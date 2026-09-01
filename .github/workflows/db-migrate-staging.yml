@@ -7,4 +7,4 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "dummy workflow: [db][migrate]_staging"
+      - run: echo "dummy workflow [db][migrate]_staging"

@@ -7,4 +7,4 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "dummy workflow: [ci]_cache-warmup"
+      - run: echo "dummy workflow [ci]_cache-warmup"

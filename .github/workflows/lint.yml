@@ -7,4 +7,4 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "dummy workflow: lint"
+      - run: echo "dummy workflow lint"

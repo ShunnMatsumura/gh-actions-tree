@@ -7,4 +7,4 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "dummy workflow: [infra]_drift-check"
+      - run: echo "dummy workflow [infra]_drift-check"

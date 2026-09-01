@@ -7,4 +7,4 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "dummy workflow: [app][api]_build"
+      - run: echo "dummy workflow [app][api]_build"
