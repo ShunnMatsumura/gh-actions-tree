@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>GH Actions Tree — Options</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      margin: 16px;
+      min-width: 420px;
+      color: #1f2328;
+    }
+    h1 {
+      font-size: 16px;
+      margin: 0 0 12px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .hint {
+      color: #59636e;
+      font-size: 12px;
+      margin: 4px 0 12px;
+    }
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 5px 12px;
+      font-size: 14px;
+      border: 1px solid #d1d9e0;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 8px;
+      padding: 5px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      background: #1f883d;
+      border: 1px solid rgba(31, 35, 40, 0.15);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1a7f37;
+    }
+    #status {
+      margin-left: 8px;
+      color: #1a7f37;
+    }
+  </style>
+</head>
+<body>
+  <h1>GH Actions Tree</h1>
+
+  <label for="token">GitHub Personal Access Token（任意）</label>
+  <p class="hint">
+    プライベートリポジトリでワークフロー一覧を API から取得する場合に設定します。
+    Fine-grained token なら対象リポジトリの <code>Actions: Read-only</code> 権限、
+    classic token なら <code>repo</code> スコープが必要です。
+    未設定の場合、プライベートリポジトリではサイドバーの DOM から一覧を取得します。
+  </p>
+  <input type="password" id="token" placeholder="github_pat_... / ghp_...">
+
+  <div>
+    <button id="save">Save</button>
+    <span id="status"></span>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+/* GH Actions Tree — styled with GitHub Primer CSS variables (light/dark aware) */
+
+#ghat-root {
+  font-size: 14px;
+  color: var(--fgColor-default, #1f2328);
+  margin-bottom: 16px;
+}
+
+/* Original (flat) workflow lists are hidden while the tree is active */
+.ghat-hidden-original:not(.ghat-visible-again) {
+  display: none !important;
+}
+
+/* When the user toggles back to the original list, collapse the tree UI */
+#ghat-root.ghat-collapsed .ghat-tree,
+#ghat-root.ghat-collapsed .ghat-filter {
+  display: none;
+}
+
+/* ---------------- header ---------------- */
+
+.ghat-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.ghat-all {
+  font-weight: 600;
+  color: var(--fgColor-default, #1f2328);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.ghat-all:hover {
+  background: var(--control-transparent-bgColor-hover, rgba(175, 184, 193, 0.2));
+}
+
+.ghat-spacer {
+  flex: 1;
+}
+
+.ghat-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--fgColor-muted, #59636e);
+  cursor: pointer;
+}
+
+.ghat-btn:hover {
+  background: var(--control-transparent-bgColor-hover, rgba(175, 184, 193, 0.2));
+  color: var(--fgColor-default, #1f2328);
+}
+
+.ghat-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ---------------- filter ---------------- */
+
+.ghat-filter {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 4px 0 8px;
+  padding: 5px 12px;
+  font-size: 14px;
+  color: var(--fgColor-default, #1f2328);
+  background: var(--bgColor-default, #ffffff);
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: 6px;
+  outline: none;
+}
+
+.ghat-filter:focus {
+  border-color: var(--focus-outlineColor, #0969da);
+  box-shadow: 0 0 0 1px var(--focus-outlineColor, #0969da);
+}
+
+.ghat-filter::placeholder {
+  color: var(--fgColor-muted, #59636e);
+}
+
+/* ---------------- tree ---------------- */
+
+.ghat-icon {
+  flex: none;
+  fill: currentColor;
+}
+
+.ghat-icon-folder {
+  color: var(--treeViewItem-leadingVisual-iconColor-rest, #54aeff);
+}
+
+.ghat-folder > .ghat-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  color: var(--fgColor-default, #1f2328);
+}
+
+.ghat-folder > .ghat-summary::-webkit-details-marker {
+  display: none;
+}
+
+.ghat-folder > .ghat-summary:hover {
+  background: var(--control-transparent-bgColor-hover, rgba(175, 184, 193, 0.2));
+}
+
+.ghat-chevron {
+  color: var(--fgColor-muted, #59636e);
+  transition: transform 0.12s ease-in-out;
+}
+
+.ghat-folder[open] > .ghat-summary .ghat-chevron {
+  transform: rotate(90deg);
+}
+
+.ghat-count {
+  font-size: 12px;
+  line-height: 18px;
+  padding: 0 6px;
+  border-radius: 10px;
+  color: var(--fgColor-muted, #59636e);
+  background: var(--bgColor-neutral-muted, rgba(175, 184, 193, 0.2));
+}
+
+.ghat-children {
+  margin-left: 14px;
+  padding-left: 8px;
+  border-left: 1px solid var(--borderColor-muted, #d1d9e0b3);
+}
+
+.ghat-leaf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: var(--fgColor-default, #1f2328);
+  text-decoration: none;
+  position: relative;
+}
+
+.ghat-leaf .ghat-icon {
+  color: var(--fgColor-muted, #59636e);
+}
+
+.ghat-leaf:hover {
+  background: var(--control-transparent-bgColor-hover, rgba(175, 184, 193, 0.2));
+  text-decoration: none;
+  color: var(--fgColor-default, #1f2328);
+}
+
+.ghat-leaf.ghat-active {
+  font-weight: 600;
+  background: var(--control-transparent-bgColor-selected, rgba(175, 184, 193, 0.24));
+}
+
+.ghat-leaf.ghat-active::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  border-radius: 2px;
+  background: var(--bgColor-accent-emphasis, #0969da);
+}
+
+.ghat-leaf.ghat-disabled {
+  opacity: 0.55;
+}
+
+.ghat-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
+}
+
+/* ---------------- filtering ---------------- */
+
+.ghat-filtered-out {
+  display: none !important;
+}
