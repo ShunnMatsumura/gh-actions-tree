@@ -1,5 +1,7 @@
 # gh-actions-tree
 
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-GH%20Actions%20Tree-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/gh-actions-tree/oojifadbfbabacimdfddabfafhhgdddp)
+
 GitHub Actions のワークフロー一覧サイドバーを、命名規則ベースのフォルダツリー UI に置き換える Chrome 拡張機能です。
 
 ワークフロー名が `[A][B]_deploy` のような形式のとき、`A > B > deploy` という階層で表示します。
@@ -33,6 +35,12 @@ lint                                 deploy
 - GitHub のライト/ダークテーマ両対応（Primer CSS 変数を使用）
 
 ## インストール
+
+Chrome Web Store で公開しています。
+
+**<https://chromewebstore.google.com/detail/gh-actions-tree/oojifadbfbabacimdfddabfafhhgdddp>**
+
+開発版を試す場合は、パッケージ化されていない拡張機能として読み込みます。
 
 1. このリポジトリをクローン
 2. Chrome で `chrome://extensions` を開く
