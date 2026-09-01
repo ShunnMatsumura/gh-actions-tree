@@ -212,7 +212,7 @@
     }
   }
 
-  function scrapeWorkflows(container) {
+  function collectWorkflowsFromDom(container) {
     const seen = new Map();
     for (const a of sidebarWorkflowAnchors(container)) {
       const m = (a.getAttribute('href') || '').match(/\/actions\/workflows\/([^/?#]+)/);
@@ -238,7 +238,7 @@
     } catch {
       // Private repo without a token, rate limit, etc. -> fall back to the DOM.
       await expandSidebar(container);
-      workflows = scrapeWorkflows(container);
+      workflows = collectWorkflowsFromDom(container);
     }
     if (workflows && workflows.length > 0) {
       lsSetJSON(cacheKey, { t: Date.now(), workflows });
