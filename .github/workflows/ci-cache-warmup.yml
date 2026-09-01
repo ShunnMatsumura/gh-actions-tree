@@ -1,0 +1,10 @@
+name: "[ci]_cache-warmup"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "dummy workflow: [ci]_cache-warmup"
