@@ -14,7 +14,7 @@ GitHub Actions を本格的に使っていると、ワークフローはどん�
 ![変更前：フラットなワークフロー一覧](/images/gh-actions-tree/before.png)
 *変更前。フラットな一覧で、下の方は「Show more workflows」を押すまで見えない*
 
-GitHub にはワークフローをグルーピングする機能がありません（[何年も要望が出ています](https://github.com/orgs/community/discussions/12055)が実装されていない）。ないなら作ろう、ということで Chrome 拡張機能を作りました。
+GitHub にはワークフローをグルーピングする機能がありません。ないなら作ろう、ということで Chrome 拡張機能を作りました。
 
 ## 作ったもの：GH Actions Tree
 
